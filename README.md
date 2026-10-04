@@ -51,7 +51,7 @@ Principios:
 
 ## 3. Tecnologías
 
-Next.js 16 (App Router, Turbopack) · React 19 · TypeScript estricto · Tailwind CSS v4 · Lucide Icons · Zod · fuentes self-hosted (Geist, Geist Mono, Instrument Serif) · Vercel.
+Next.js 16 (App Router, Turbopack) · React 19 · TypeScript estricto · Tailwind CSS v4 · Lucide Icons · Zod · next/font (Geist, Geist Mono, Instrument Serif, servidas desde tu dominio) · Vercel.
 
 > Se optó por primitivas propias estilo shadcn (`components/ui`) en lugar del CLI para mantener el bundle mínimo y el sistema de diseño bajo control total.
 
@@ -192,7 +192,6 @@ app/
   api/chat/route.ts       streaming + validación + rate limit + fallback
   api/contact/route.ts
   sitemap.ts robots.ts manifest.ts opengraph-image.tsx icon.svg
-  fonts/                  fuentes self-hosted
 components/
   ui/ navigation/ hero/ intelligence/ solutions/ agents/ sections/ contact/
 config/site.ts            metadatos, navegación, URL
