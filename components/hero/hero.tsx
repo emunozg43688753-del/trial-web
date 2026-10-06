@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { TrialBrain } from "@/components/intelligence/trial-brain";
-import { growthConfig } from "@/config/growth";
+import { demoSignupHref, growthConfig } from "@/config/growth";
 import type { IntelligenceMode } from "@/types";
 
 const CAPABILITIES = ["Agentes autónomos", "Automatización", "Knowledge Intelligence", "Integraciones"];
@@ -17,7 +17,7 @@ export function Hero({ mode }: { mode: IntelligenceMode }) {
 
       <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center px-5 text-center sm:px-8">
         <Link
-          href="/register"
+          href={demoSignupHref}
           className="group inline-flex items-center gap-2 rounded-full border border-accent-line bg-surface/80 py-1.5 pr-3 pl-1.5 text-[12.5px] text-ink-2 transition-colors animate-fade-in hover:border-accent hover:text-ink"
         >
           <span className="rounded-full bg-accent px-2 py-0.5 font-mono text-[10.5px] font-medium tracking-wider text-accent-ink">GRATIS</span>
@@ -40,7 +40,7 @@ export function Hero({ mode }: { mode: IntelligenceMode }) {
 
         <div className="mt-8 flex flex-col items-center gap-3 animate-fade-in [animation-delay:240ms] sm:flex-row">
           <Link
-            href="/register"
+            href={demoSignupHref}
             className="group inline-flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-[15px] font-medium text-bg transition-colors hover:bg-ink/85"
           >
             Activar mi demo gratis

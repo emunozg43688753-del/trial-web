@@ -1,3 +1,5 @@
+import { isFirebaseClientConfigured } from "@/lib/firebase/config";
+
 /**
  * Growth & conversion settings. Public values only — safe for the browser.
  */
@@ -23,3 +25,7 @@ export function salesLink(message = "Hola TRIAL, quiero activar mis agentes de v
   if (wa) return { href: wa, external: true };
   return { href: "/contact", external: false };
 }
+
+
+/** Where demo CTAs point: signup when accounts are live, otherwise the contact form. */
+export const demoSignupHref = isFirebaseClientConfigured ? "/register" : "/contact";

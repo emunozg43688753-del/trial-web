@@ -1,6 +1,6 @@
 import { ArrowRight, Gift } from "lucide-react";
 import Link from "next/link";
-import { growthConfig } from "@/config/growth";
+import { demoSignupHref, growthConfig } from "@/config/growth";
 
 /** Reusable conversion strip: promotes the free sales-agents demo. */
 export function DemoBanner({ className = "" }: { className?: string }) {
@@ -20,7 +20,7 @@ export function DemoBanner({ className = "" }: { className?: string }) {
         </div>
       </div>
       <Link
-        href="/register"
+        href={demoSignupHref}
         className="group inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-6 text-[15px] font-medium text-accent-ink transition-colors hover:bg-accent/90"
       >
         Activar demo gratis

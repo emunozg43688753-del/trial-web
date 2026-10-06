@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
+import { demoSignupHref } from "@/config/growth";
 
 interface CTAProps {
   eyebrow?: string;
@@ -28,7 +29,7 @@ export function CTA({
             </h2>
             <p className="mx-auto mt-6 max-w-lg text-pretty text-[16px] leading-relaxed text-ink-2">{description}</p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <ButtonLink href="/register" size="lg" variant="accent" className="w-full sm:w-auto">
+              <ButtonLink href={demoSignupHref} size="lg" variant="accent" className="w-full sm:w-auto">
                 Activar demo gratis de 3 días
                 <ArrowUpRight className="size-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               </ButtonLink>
