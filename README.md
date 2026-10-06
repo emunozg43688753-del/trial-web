@@ -206,6 +206,47 @@ lib/
 types/index.ts
 ```
 
+## 11. Sistema de cuentas, demo de 3 días y seguimiento
+
+**Embudo:** visitante → TRIAL Brain (3 mensajes gratis) → registro (`/register`, email o Google) → mensaje de felicitación + **demo de 3 días de Agentes de Ventas** → panel `/app` (activar hasta 3 agentes, probarlos, checklist) → emails día 0/1/2/3 → sesión con ventas (reserva o WhatsApp).
+
+| Pieza | Dónde |
+| --- | --- |
+| Login / registro (Firebase Auth) | `components/auth/*`, `app/(auth)/*` |
+| Inicio del trial (server-side, no manipulable) | `app/api/account/route.ts`, `lib/account/server.ts` |
+| Panel y agentes de ventas | `components/dashboard/*`, `data/sales-agents.ts` |
+| Señales de compra (prueba de agente, clic en ventas) | `app/api/account/event/route.ts` |
+| Emails de seguimiento + cron diario | `lib/email/*`, `app/api/cron/follow-ups/route.ts`, `vercel.json` |
+| Baja de emails (enlace firmado) | `app/api/unsubscribe/route.ts` |
+| Atribución UTM + eventos `dataLayer` | `lib/growth/client.ts` |
+
+### Configurar Firebase (una sola vez)
+
+1. Crea un proyecto en https://console.firebase.google.com.
+2. **Authentication → Sign-in method:** habilita *Correo/contraseña* y *Google*.
+3. **Authentication → Settings → Authorized domains:** añade tu dominio de Vercel (y el propio cuando lo tengas).
+4. **Firestore Database → Crear base de datos** (modo producción). En *Reglas*, pega el contenido de `firestore.rules`.
+5. **Configuración del proyecto → Tus apps → Web (</>):** copia `apiKey`, `authDomain`, `projectId`, `appId` a las variables `NEXT_PUBLIC_FIREBASE_*`.
+6. **Configuración del proyecto → Cuentas de servicio → Generar nueva clave privada:** del JSON copia `project_id`, `client_email` y `private_key` a `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY` (pega la clave completa, con `-----BEGIN PRIVATE KEY-----`).
+
+### Seguimiento por email (Resend)
+
+1. Crea cuenta en https://resend.com, verifica tu dominio y crea una API key → `RESEND_API_KEY`.
+2. `EMAIL_FROM="TRIAL <hola@tudominio.com>"` y `CONTACT_TO_EMAIL` (donde recibes los avisos de nuevos registros).
+3. `CRON_SECRET`: una cadena aleatoria larga. Vercel la usa para llamar al cron diario y firma los enlaces de baja.
+
+### Destino de ventas
+
+`NEXT_PUBLIC_BOOKING_URL` (Calendly, Cal.com…) y/o `NEXT_PUBLIC_WHATSAPP_NUMBER` (con código de país, ej. `573001234567`). Si no defines ninguno, los botones llevan a `/contact`.
+
+### Convertir un usuario en cliente
+
+En Firestore, en `users/{uid}`, cambia `plan` de `"trial"` a `"customer"`. Su panel se desbloquea al instante y deja de recibir la secuencia de demo.
+
+### Datos útiles para ventas en cada usuario
+
+`attribution` (de dónde vino), `activatedAgents`, `testedAgents`, `intents` (clics en reservar/WhatsApp) y `lastIntentAt`. Prioriza a quien tenga `intents.booking` > 0.
+
 ## Accesibilidad y rendimiento
 
 HTML semántico, skip link, `aria-*` en chat y tabs (patrón WAI-ARIA con flechas/Home/End), estados de foco visibles, `prefers-reduced-motion` respetado, formularios con errores asociados. Animaciones de scroll 100 % CSS (`animation-timeline: view()`), fuentes locales con `display: swap`, páginas estáticas/SSG y JavaScript de cliente solo donde hay interacción. Soporta modo claro y oscuro según el sistema.

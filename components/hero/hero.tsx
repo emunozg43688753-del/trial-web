@@ -1,4 +1,7 @@
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { TrialBrain } from "@/components/intelligence/trial-brain";
+import { growthConfig } from "@/config/growth";
 import type { IntelligenceMode } from "@/types";
 
 const CAPABILITIES = ["Agentes autónomos", "Automatización", "Knowledge Intelligence", "Integraciones"];
@@ -13,10 +16,14 @@ export function Hero({ mode }: { mode: IntelligenceMode }) {
       />
 
       <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center px-5 text-center sm:px-8">
-        <p className="eyebrow inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 px-3 py-1.5 tracking-[0.08em] animate-fade-in sm:tracking-[0.14em]">
-          <span aria-hidden className="size-1.5 rounded-full bg-accent" />
-          Centro de Experiencia de Superinteligencia
-        </p>
+        <Link
+          href="/register"
+          className="group inline-flex items-center gap-2 rounded-full border border-accent-line bg-surface/80 py-1.5 pr-3 pl-1.5 text-[12.5px] text-ink-2 transition-colors animate-fade-in hover:border-accent hover:text-ink"
+        >
+          <span className="rounded-full bg-accent px-2 py-0.5 font-mono text-[10.5px] font-medium tracking-wider text-accent-ink">GRATIS</span>
+          {growthConfig.trialDays} días de demo de Agentes de Ventas con IA
+          <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+        </Link>
 
         <h1 id="hero-title" className="display mt-7 max-w-5xl text-balance text-[2.9rem] text-ink sm:text-7xl lg:text-[5.25rem]">
           Superinteligencia para potenciar al{" "}
@@ -29,6 +36,17 @@ export function Hero({ mode }: { mode: IntelligenceMode }) {
 
         <div className="mt-10 w-full max-w-3xl text-left animate-fade-up [animation-delay:120ms] sm:mt-12">
           <TrialBrain initialMode={mode} />
+        </div>
+
+        <div className="mt-8 flex flex-col items-center gap-3 animate-fade-in [animation-delay:240ms] sm:flex-row">
+          <Link
+            href="/register"
+            className="group inline-flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-[15px] font-medium text-bg transition-colors hover:bg-ink/85"
+          >
+            Activar mi demo gratis
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+          </Link>
+          <span className="text-[13px] text-ink-3">Sin tarjeta · {growthConfig.trialDays} días · Activación inmediata</span>
         </div>
 
         <ul aria-label="Capacidades" className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 animate-fade-in [animation-delay:300ms]">

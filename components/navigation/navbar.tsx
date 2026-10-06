@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { ButtonLink } from "@/components/ui/button";
 import { mainNav } from "@/config/site";
 import { cn } from "@/lib/utils/cn";
+import { useAuth } from "@/components/auth/auth-provider";
 import { Logo } from "./logo";
 
 function isActive(pathname: string, href: string) {
@@ -16,6 +17,7 @@ function isActive(pathname: string, href: string) {
 
 export function Navbar() {
   const pathname = usePathname();
+  const { user, configured } = useAuth();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [lastPath, setLastPath] = useState(pathname);
@@ -72,10 +74,31 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
-          <ButtonLink href="/contact" size="sm" className="hidden sm:inline-flex">
-            Habla con TRIAL
-            <ArrowUpRight className="size-3.5 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-          </ButtonLink>
+          {user ? (
+            <ButtonLink href="/app" size="sm" className="hidden sm:inline-flex">
+              Mi panel
+            </ButtonLink>
+          ) : configured ? (
+            <>
+              <Link href="/login" className="hidden rounded-full px-3 py-2 text-[13.5px] text-ink-2 hover:text-ink sm:inline-flex">
+                Iniciar sesión
+              </Link>
+              <ButtonLink href="/register" size="sm" variant="accent" className="hidden sm:inline-flex">
+                Demo gratis 3 días
+                <ArrowUpRight className="size-3.5 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+              </ButtonLink>
+            </>
+          ) : (
+            <ButtonLink href="/contact" size="sm" className="hidden sm:inline-flex">
+              Habla con TRIAL
+              <ArrowUpRight className="size-3.5 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+            </ButtonLink>
+          )}
+          {!user && configured && (
+            <ButtonLink href="/register" size="sm" variant="accent" className="sm:hidden">
+              Demo gratis
+            </ButtonLink>
+          )}
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -109,9 +132,24 @@ export function Navbar() {
             </li>
           ))}
         </ul>
-        <ButtonLink href="/contact" size="lg" className="mt-8 w-full" onClick={() => setOpen(false)}>
-          Habla con TRIAL
-        </ButtonLink>
+        {user ? (
+          <ButtonLink href="/app" size="lg" className="mt-8 w-full" onClick={() => setOpen(false)}>
+            Mi panel
+          </ButtonLink>
+        ) : configured ? (
+          <div className="mt-8 grid gap-3">
+            <ButtonLink href="/register" size="lg" variant="accent" className="w-full" onClick={() => setOpen(false)}>
+              Activar demo gratis de 3 días
+            </ButtonLink>
+            <ButtonLink href="/login" size="lg" variant="secondary" className="w-full" onClick={() => setOpen(false)}>
+              Iniciar sesión
+            </ButtonLink>
+          </div>
+        ) : (
+          <ButtonLink href="/contact" size="lg" className="mt-8 w-full" onClick={() => setOpen(false)}>
+            Habla con TRIAL
+          </ButtonLink>
+        )}
         <p className="eyebrow mt-8 text-center">Superintelligence for human potential</p>
       </div>
     </header>

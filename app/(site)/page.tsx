@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AgentCard } from "@/components/agents/agent-card";
 import { Hero } from "@/components/hero/hero";
 import { CTA } from "@/components/sections/cta";
+import { DemoBanner } from "@/components/sections/demo-banner";
 import { IndustrySelector } from "@/components/sections/industry-selector";
 import { IntelligenceLayer } from "@/components/sections/intelligence-layer";
 import { Philosophy } from "@/components/sections/philosophy";
@@ -79,6 +80,7 @@ export default function HomePage() {
             </li>
           ))}
         </ul>
+        <DemoBanner className="mt-10" />
       </Section>
 
       <Section id="how-it-works" labelledBy="how-title" className="border-t border-line">

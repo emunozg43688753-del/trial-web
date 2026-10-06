@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { AuthProvider } from "@/components/auth/auth-provider";
 import { Navbar } from "@/components/navigation/navbar";
 import { siteConfig } from "@/config/site";
 import "./globals.css";
@@ -61,10 +62,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Saltar al contenido
         </a>
-        <Navbar />
-        <main id="main" className="flex flex-1 flex-col">
-          {children}
-        </main>
+        <AuthProvider>
+          <Navbar />
+          <main id="main" className="flex flex-1 flex-col">
+            {children}
+          </main>
+        </AuthProvider>
       </body>
     </html>
   );

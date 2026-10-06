@@ -43,7 +43,9 @@ En la mayoría de equipos comerciales, el cuello de botella no es la falta de le
 
 **Métricas a medir:** tiempo de primera respuesta, tasa de lead→reunión y horas comerciales liberadas por semana.
 
-Para afinar la propuesta: **¿qué CRM usan, cuántos leads reciben al mes y cuál es su ciclo de venta promedio?**`,
+Para afinar la propuesta: **¿qué CRM usan, cuántos leads reciben al mes y cuál es su ciclo de venta promedio?**
+
+¿Quieres verlo funcionando? Prueba gratis durante 3 días nuestros Agentes de Ventas creando tu cuenta en [/register](/register).`,
   },
   {
     id: "support",

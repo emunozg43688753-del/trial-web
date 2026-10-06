@@ -3,16 +3,19 @@
 import { RotateCcw } from "lucide-react";
 import type { BrainStatus, ChatMessage as ChatMessageType } from "@/types";
 import { ChatMessage, ThinkingMessage } from "./chat-message";
+import { RegisterNudge } from "./register-nudge";
 
 interface ChatThreadProps {
   messages: ChatMessageType[];
   status: BrainStatus;
   errorMessage: string | null;
   onRetry: () => void;
+  /** Conversion card shown after the thread (anonymous visitors only). */
+  nudge?: "soft" | "gate" | null;
 }
 
 /** Renders the message list plus loading and error states. Shared by the hero brain and /intelligence. */
-export function ChatThread({ messages, status, errorMessage, onRetry }: ChatThreadProps) {
+export function ChatThread({ messages, status, errorMessage, onRetry, nudge }: ChatThreadProps) {
   const lastId = messages[messages.length - 1]?.id;
   return (
     <div className="flex flex-col gap-7" aria-live="off">
@@ -32,6 +35,7 @@ export function ChatThread({ messages, status, errorMessage, onRetry }: ChatThre
           </button>
         </div>
       )}
+      {nudge && status !== "loading" && status !== "streaming" && <RegisterNudge variant={nudge} />}
     </div>
   );
 }

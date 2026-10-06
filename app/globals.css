@@ -57,7 +57,9 @@
   --line: #272725;
   --line-strong: #383833;
   --accent: #8e98ff;
+  --accent-ink: #0b0b0a;
   --accent-soft: #1a1d38;
+  --accent-line: #2f3570;
   background: var(--bg);
   color: var(--ink);
 }
@@ -188,6 +190,11 @@
 
 @keyframes orbit {
   to { transform: rotate(360deg); }
+}
+
+@keyframes confetti {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(170px) rotate(540deg); opacity: 0; }
 }
 
 /* Scroll-driven reveal — zero JS. Browsers without support simply show content. */

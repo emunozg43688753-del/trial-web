@@ -28,12 +28,12 @@ export function CTA({
             </h2>
             <p className="mx-auto mt-6 max-w-lg text-pretty text-[16px] leading-relaxed text-ink-2">{description}</p>
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <ButtonLink href="/contact" size="lg" className="w-full sm:w-auto">
-                Habla con TRIAL
+              <ButtonLink href="/register" size="lg" variant="accent" className="w-full sm:w-auto">
+                Activar demo gratis de 3 días
                 <ArrowUpRight className="size-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               </ButtonLink>
-              <ButtonLink href="/intelligence" variant="secondary" size="lg" className="w-full sm:w-auto">
-                Explorar TRIAL Intelligence
+              <ButtonLink href="/contact" variant="secondary" size="lg" className="w-full sm:w-auto">
+                Habla con un estratega
               </ButtonLink>
             </div>
           </div>

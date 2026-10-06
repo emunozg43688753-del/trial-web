@@ -6,6 +6,7 @@ import { useCallback, useRef, useState } from "react";
 import { NeuralCore } from "@/components/ui/neural-core";
 import { heroSuggestions } from "@/data/content";
 import { useChat } from "@/hooks/use-chat";
+import { useChatGate } from "@/hooks/use-chat-gate";
 import { useStickToBottom } from "@/hooks/use-stick-to-bottom";
 import { useTypewriter } from "@/hooks/use-typewriter";
 import { conversationStore, deriveTitle } from "@/lib/chat/storage";
@@ -15,6 +16,7 @@ import { BrainStatusIndicator, ModeBadge } from "./brain-status";
 import { ChatInput } from "./chat-input";
 import { ChatThread } from "./chat-thread";
 import { PromptSuggestions } from "./prompt-suggestions";
+import { RegisterNudge } from "./register-nudge";
 
 const PLACEHOLDERS = [
   "Pregúntame cómo aplicar IA a tu negocio…",
@@ -48,8 +50,12 @@ export function TrialBrain({ initialMode }: { initialMode: IntelligenceMode }) {
   const placeholder = useTypewriter(PLACEHOLDERS, { paused: focused || chat.input.length > 0 || chat.messages.length > 0 });
 
   const hasConversation = chat.messages.length > 0;
+  const gate = useChatGate();
+  const hasAnswer = chat.messages.some((m) => m.role === "assistant" && m.content);
+  const nudge = gate.gated ? "gate" : gate.anonymous && hasAnswer ? "soft" : null;
 
   const send = (text?: string) => {
+    if (!(text ?? chat.input).trim() || !gate.allow()) return;
     pin();
     chat.send(text);
   };
@@ -85,10 +91,15 @@ export function TrialBrain({ initialMode }: { initialMode: IntelligenceMode }) {
       <div className="px-4 pt-5 sm:px-6 sm:pt-6">
         {hasConversation ? (
           <div ref={ref} onScroll={onScroll} className="scroll-quiet -mx-1 max-h-[46vh] min-h-[180px] overflow-y-auto px-1 pb-4 sm:max-h-[420px]">
-            <ChatThread messages={chat.messages} status={chat.status} errorMessage={chat.errorMessage} onRetry={chat.retry} />
+            <ChatThread messages={chat.messages} status={chat.status} errorMessage={chat.errorMessage} onRetry={chat.retry} nudge={nudge} />
           </div>
         ) : (
           <div className="pb-5">
+            {gate.gated && (
+              <div className="mb-5">
+                <RegisterNudge variant="gate" />
+              </div>
+            )}
             <h2 className="editorial text-[1.75rem] text-ink sm:text-[2rem]">¿Qué quieres transformar?</h2>
             <p className="mt-1.5 text-sm text-ink-3">Describe un proceso, un equipo o un problema. Te respondo con un diagnóstico.</p>
           </div>

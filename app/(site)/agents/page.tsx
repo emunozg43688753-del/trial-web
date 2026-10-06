@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AgentCard } from "@/components/agents/agent-card";
 import { CTA } from "@/components/sections/cta";
+import { DemoBanner } from "@/components/sections/demo-banner";
 import { PageHero, Section } from "@/components/ui/section";
 import { agents } from "@/data/agents";
 
@@ -27,6 +28,7 @@ export default function AgentsPage() {
             </li>
           ))}
         </ul>
+        <DemoBanner className="mt-10" />
       </Section>
       <CTA
         eyebrow="Agentes a medida"

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "
 import { NeuralCore } from "@/components/ui/neural-core";
 import { recommendedPrompts } from "@/data/content";
 import { useChat } from "@/hooks/use-chat";
+import { useChatGate } from "@/hooks/use-chat-gate";
 import { useStickToBottom } from "@/hooks/use-stick-to-bottom";
 import { conversationStore, deriveTitle } from "@/lib/chat/storage";
 import { createId } from "@/lib/utils/cn";
@@ -13,6 +14,7 @@ import { BrainStatusIndicator, ModeBadge } from "./brain-status";
 import { ChatInput } from "./chat-input";
 import { ChatThread } from "./chat-thread";
 import { ConversationSidebar } from "./conversation-sidebar";
+import { RegisterNudge } from "./register-nudge";
 
 interface IntelligenceWorkspaceProps {
   initialMode: IntelligenceMode;
@@ -95,7 +97,12 @@ export function IntelligenceWorkspace({ initialMode, initialConversationId, init
     return () => document.removeEventListener("keydown", onKey);
   }, [drawerOpen]);
 
+  const gate = useChatGate();
+  const answers = chat.messages.filter((m) => m.role === "assistant" && m.content).length;
+  const nudge = gate.gated ? "gate" : gate.anonymous && answers >= 1 ? "soft" : null;
+
   const submit = (text?: string) => {
+    if (!(text ?? chat.input).trim() || !gate.allow()) return;
     pin();
     chat.send(text);
   };
@@ -149,9 +156,16 @@ export function IntelligenceWorkspace({ initialMode, initialConversationId, init
         <div ref={ref} onScroll={onScroll} className="scroll-quiet flex-1 overflow-y-auto">
           <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
             {empty ? (
-              <EmptyState onSelect={submit} disabled={chat.busy} />
+              <>
+                {gate.gated && (
+                  <div className="mb-10">
+                    <RegisterNudge variant="gate" />
+                  </div>
+                )}
+                <EmptyState onSelect={submit} disabled={chat.busy} />
+              </>
             ) : (
-              <ChatThread messages={chat.messages} status={chat.status} errorMessage={chat.errorMessage} onRetry={chat.retry} />
+              <ChatThread messages={chat.messages} status={chat.status} errorMessage={chat.errorMessage} onRetry={chat.retry} nudge={nudge} />
             )}
           </div>
         </div>

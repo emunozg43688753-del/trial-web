@@ -6,7 +6,7 @@ import { solutions } from "@/data/solutions";
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteConfig.url;
   const now = new Date();
-  const core = ["", "/intelligence", "/solutions", "/agents", "/about", "/contact", "/privacy", "/terms"];
+  const core = ["", "/intelligence", "/solutions", "/agents", "/about", "/contact", "/register", "/privacy", "/terms"];
 
   return [
     ...core.map((path) => ({
